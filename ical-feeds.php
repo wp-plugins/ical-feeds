@@ -217,6 +217,7 @@ DTEND;TZID=$timezone:$end_time
 SUMMARY:$summary
 URL;VALUE=URI:$permalink
 END:VEVENT
+
 EVENT;
 
     }
