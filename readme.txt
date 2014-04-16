@@ -3,7 +3,7 @@ Contributors: maximevalette
 Donate link: http://maxime.sh/paypal
 Tags: uri.lv, ical, posts, feed, future, calendar, agenda
 Requires at least: 3.0
-Tested up to: 3.5.0
+Tested up to: 3.9
 Stable tag: trunk
 
 Generate a customizable iCal feed of your present and future blog posts.
