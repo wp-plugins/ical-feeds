@@ -5,7 +5,7 @@ Plugin URI: http://maxime.sh/ical-feeds
 Description: Generate a customizable iCal feed of your present and future blog posts.
 Author: Maxime VALETTE
 Author URI: http://maxime.sh
-Version: 1.0
+Version: 1.1
 */
 
 define('ICALFEEDS_TEXTDOMAIN', 'icalfeeds');
@@ -33,6 +33,7 @@ function icalfeeds_conf() {
 
 	$options = get_option('icalfeeds');
 
+    if (!isset($options['icalfeeds_minutes'])) $options['icalfeeds_minutes'] = 60;	
     if (!isset($options['icalfeeds_secret'])) $options['icalfeeds_secret'] = 'changeme';
     if (!isset($options['icalfeeds_senable'])) $options['icalfeeds_senable'] = 0;
 
@@ -41,6 +42,12 @@ function icalfeeds_conf() {
 	if (isset($_POST['submit'])) {
 
 		check_admin_referer('icalfeeds', 'icalfeeds-admin');
+
+        if (isset($_POST['icalfeeds_minutes'])) {
+            $icalfeeds_minutes = (int) $_POST['icalfeeds_minutes'];
+        } else {
+            $icalfeeds_minutes = 60;
+        }
 
         if (isset($_POST['icalfeeds_secret'])) {
             $icalfeeds_secret = $_POST['icalfeeds_secret'];
@@ -54,6 +61,7 @@ function icalfeeds_conf() {
             $icalfeeds_senable = 0;
         }
 
+		$options['icalfeeds_minutes'] = $icalfeeds_minutes;
 		$options['icalfeeds_secret'] = $icalfeeds_secret;
         $options['icalfeeds_senable'] = $icalfeeds_senable;
 
@@ -99,6 +107,9 @@ function icalfeeds_conf() {
     echo '<h3><label for="icalfeeds_secret">'.__('Secret parameter value:', ICALFEEDS_TEXTDOMAIN).'</label></h3>';
     echo '<p><input type="text" id="icalfeeds_secret" name="icalfeeds_secret" value="'.$options['icalfeeds_secret'].'" style="width: 200px;" /></p>';
 
+    echo '<h3><label for="icalfeeds_minutes">'.__('Time interval per post:', ICALFEEDS_TEXTDOMAIN).'</label></h3>';
+    echo '<p><input type="text" id="icalfeeds_minutes" name="icalfeeds_minutes" value="'.$options['icalfeeds_minutes'].'" style="width: 50px; text-align: center;" /> '.__('minutes', ICALFEEDS_TEXTDOMAIN).'</p>';
+
     echo '<p class="submit" style="text-align: left">';
     wp_nonce_field('icalfeeds', 'icalfeeds-admin');
     echo '<input type="submit" name="submit" value="'.__('Save', ICALFEEDS_TEXTDOMAIN).' &raquo;" /></p></form>';
@@ -140,6 +151,7 @@ function icalfeeds_feed() {
     global $wpdb;
 
     $options = get_option('icalfeeds');
+    if (!isset($options['icalfeeds_minutes'])) $options['icalfeeds_minutes'] = 60;	
 
     if ($_GET['category']) {
 
@@ -205,7 +217,7 @@ function icalfeeds_feed() {
     foreach ($posts as $post) {
 
         $start_time = date('Ymd\THis', $post->post_date);
-        $end_time = date('Ymd\THis', $post->post_date + (60 * 60));
+        $end_time = date('Ymd\THis', $post->post_date + ($options['icalfeeds_minutes'] * 60));
         $summary = $post->post_title;
         $permalink = get_permalink($post->ID);
         $timezone = get_option('timezone_string');

@@ -22,5 +22,8 @@ Outlook, Hotmail...
 
 == Changelog ==
 
+= 1.1 =
+* You can now specify a time interval per blog post.
+
 = 1.0 =
 * First version. Enjoy!
