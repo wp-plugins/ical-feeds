@@ -5,10 +5,11 @@ Plugin URI: http://maxime.sh/ical-feeds
 Description: Generate a customizable iCal feed of your present and future blog posts.
 Author: Maxime VALETTE
 Author URI: http://maxime.sh
-Version: 1.2
+Version: 1.2.1
 */
 
 define('ICALFEEDS_TEXTDOMAIN', 'icalfeeds');
+define('ICALFEEDS_SLUG', 'icalfeeds');
 
 if (function_exists('load_plugin_textdomain')) {
 	load_plugin_textdomain(ICALFEEDS_TEXTDOMAIN, false, dirname(plugin_basename(__FILE__)).'/languages' );
@@ -23,7 +24,7 @@ function icalfeeds_config_page() {
         add_submenu_page('options-general.php',
             __('iCal Feeds', ICALFEEDS_TEXTDOMAIN),
             __('iCal Feeds', ICALFEEDS_TEXTDOMAIN),
-            'manage_options', __FILE__, 'icalfeeds_conf');
+            'manage_options', ICALFEEDS_SLUG, 'icalfeeds_conf');
 
     }
 
@@ -96,7 +97,7 @@ function icalfeeds_conf() {
 
     echo '<p>'.__('', ICALFEEDS_TEXTDOMAIN).'</p>';
 
-    echo '<form action="'.admin_url('options-general.php?page=ical-feeds/ical-feeds.php').'" method="post" id="feeds-conf">';
+    echo '<form action="'.admin_url('options-general.php?page=' . ICALFEEDS_SLUG).'" method="post" id="feeds-conf">';
 
     echo '<h3>'.__('Advanced Options', ICALFEEDS_TEXTDOMAIN).'</h3>';
 
