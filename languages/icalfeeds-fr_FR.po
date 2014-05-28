@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: iCal Feeds Plugin\n"
+"POT-Creation-Date: 2013-01-20 15:43+0100\n"
+"PO-Revision-Date: 2013-01-20 15:55+0100\n"
+"Last-Translator: Maxime VALETTE <maxime@maximevalette.com>\n"
+"Language-Team: Maxime VALETTE <maxime@maximevalette.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-"
+"posts\n"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:24
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:25
+msgid "iCal Posts"
+msgstr "iCal Posts"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:71
+msgid "Configuration updated."
+msgstr "Configuration mise à jour."
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:81
+msgid "You have to define your current timezone (specify a city) in"
+msgstr "Vous devez définir votre fuseau horaire (en spécifiant une ville) dans"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:82
+msgid "Settings > General"
+msgstr "Réglages > Général"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:87
+msgid "iCal Posts Configuration"
+msgstr "Configuration de iCal Posts"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:93
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:97
+msgid "Enable a secret parameter to view future posts."
+msgstr "Activer un paramètre secret pour voir les billets programmés."
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:99
+msgid "Secret parameter value:"
+msgstr "Valeur du paramètre secret :"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:104
+msgid "Save"
+msgstr "Sauver"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:106
+msgid "Main iCal feeds"
+msgstr "Flux iCal principaux"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:108
+msgid "You can use the below addresses to add in your iCal software:"
+msgstr ""
+"Vous pouvez utiliser les adresses ci-dessous pour les ajouter dans votre "
+"logiciel iCal :"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:112
+msgid "Public iCal feed"
+msgstr "Flux iCal public"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:115
+msgid "Private iCal feed"
+msgstr "Flux iCal privé"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:120
+msgid "Categories iCal feeds"
+msgstr "Flux iCal des catégories"
+
+#: /Users/maxime/Sites/wordpress/wp-content/plugins/ical-posts/ical-posts.php:128
+msgid "Public iCal feed for"
+msgstr "Flux iCal public pour"
