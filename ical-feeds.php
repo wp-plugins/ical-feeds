@@ -5,7 +5,7 @@ Plugin URI: http://maxime.sh/ical-feeds
 Description: Generate a customizable iCal feed of your present and future blog posts.
 Author: Maxime VALETTE
 Author URI: http://maxime.sh
-Version: 1.2.1
+Version: 1.2.2
 */
 
 define('ICALFEEDS_TEXTDOMAIN', 'icalfeeds');
@@ -141,9 +141,49 @@ function icalfeeds_conf() {
 
     }
 
-    echo '</ul>';
+	echo '</ul>';
+
+	echo '<h2>'.__('Multiple categories iCal feeds', ICALFEEDS_TEXTDOMAIN).'</h2>';
+
+	echo '<p>'.__('You can add multiple categories in only one URL. Just check the categories you want below:', ICALFEEDS_TEXTDOMAIN).'</p>';
+
+	echo '<ul id="categoriesList">';
+
+	foreach ($categories as $category) {
+
+		echo '<li><input type="checkbox" id="' . $category->category_nicename . '"> <label for="' . $category->category_nicename . '">' . $category->cat_name . '</label>';
+
+	}
+
+	echo '</ul>';
+
+	echo '<p id="categoriesUrl" style="display: none;">'.__('URL:', ICALFEEDS_TEXTDOMAIN).' <a href="'.site_url().'/?ical&category=" data-baseUrl="'.site_url().'/?ical&category=" target="_blank">'.site_url().'/?ical&category=</a></p>';
 
     echo '</div>';
+
+	echo <<<HTML
+<script>
+jQuery(document).ready(function() {
+	jQuery('#categoriesList li input').bind('change', function() {
+		var url = jQuery('#categoriesUrl a').attr('data-baseUrl');
+		var i = 0;
+		jQuery('#categoriesList li input:checked').each(function() {
+			if (i > 0) {
+				url += ',';
+			}
+			url += jQuery(this).attr('id');
+			i++;
+		});
+		if (i == 0) {
+			jQuery('#categoriesUrl').hide();
+		} else {
+			jQuery('#categoriesUrl a').attr('href', url).html(url);
+			jQuery('#categoriesUrl').show();
+		}
+	});
+});
+</script>
+HTML;
 
 }
 
@@ -154,31 +194,27 @@ function icalfeeds_feed() {
     $options = get_option('icalfeeds');
     if (!isset($options['icalfeeds_minutes'])) $options['icalfeeds_minutes'] = 60;	
 
-    if ($_GET['category']) {
+    if (isset($_GET['category'])) {
 
         $categories = get_categories();
-        $category_id = false;
+        $categoryIds = [0];
+	    $niceNames = explode(',', $_GET['category']);
 
         foreach ($categories as $category) {
 
-            if ($_GET['category'] == $category->category_nicename) {
+            if (in_array($category->category_nicename, $niceNames)) {
 
-                $category_id = $category->cat_ID;
-                break;
+	            $categoryIds[] = $category->cat_ID;
 
             }
 
         }
 
-        if (!$category_id) {
-
-            $category_id = 0;
-
-        }
-
     }
 
-    if (is_numeric($_GET['limit'])) {
+	$limit = null;
+
+    if (isset($_GET['limit']) && is_numeric($_GET['limit'])) {
 
         $limit = 'LIMIT ' . $_GET['limit'];
 
@@ -196,13 +232,13 @@ function icalfeeds_feed() {
 
     // Get posts
 
-    if ($_GET['category']) {
+    if (isset($_GET['category'])) {
 
-        $posts = $wpdb->get_results("SELECT $wpdb->posts.ID, UNIX_TIMESTAMP(post_date) AS post_date, post_title
-            FROM $wpdb->posts
-            LEFT JOIN $wpdb->post2cat ON ($wpdb->post2cat.post_id = $wpdb->posts.ID)
-            WHERE (".$postCond.") AND post_type = 'post' AND $wpdb->post2cat.category_id = $category_id
-            ORDER BY post_date DESC $limit");
+	    $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts
+			LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id)
+			LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id)
+			WHERE (".$postCond.") AND post_type = 'post' AND $wpdb->term_taxonomy.taxonomy = 'category' AND $wpdb->term_taxonomy.term_id IN (".implode(',', $categoryIds).")
+			ORDER BY post_date DESC $limit");
 
     } else {
 
