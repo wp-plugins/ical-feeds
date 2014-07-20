@@ -197,7 +197,7 @@ function icalfeeds_feed() {
     if (isset($_GET['category'])) {
 
         $categories = get_categories();
-        $categoryIds = [0];
+        $categoryIds = array(0);
 	    $niceNames = explode(',', $_GET['category']);
 
         foreach ($categories as $category) {
