@@ -5,7 +5,7 @@ Plugin URI: http://maxime.sh/ical-feeds
 Description: Generate a customizable iCal feed of your present and future blog posts.
 Author: Maxime VALETTE
 Author URI: http://maxime.sh
-Version: 1.2.2
+Version: 1.2.3
 */
 
 define('ICALFEEDS_TEXTDOMAIN', 'icalfeeds');
@@ -234,17 +234,17 @@ function icalfeeds_feed() {
 
     if (isset($_GET['category'])) {
 
-	    $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts
+	    $posts = $wpdb->get_results("SELECT $wpdb->posts.ID, $wpdb->posts.post_content, UNIX_TIMESTAMP($wpdb->posts.post_date) AS post_date, $wpdb->posts.post_title FROM $wpdb->posts
 			LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id)
 			LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id)
-			WHERE (".$postCond.") AND post_type = 'post' AND $wpdb->term_taxonomy.taxonomy = 'category' AND $wpdb->term_taxonomy.term_id IN (".implode(',', $categoryIds).")
+			WHERE (".$postCond.") AND $wpdb->posts.post_type = 'post' AND $wpdb->term_taxonomy.taxonomy = 'category' AND $wpdb->term_taxonomy.term_id IN (".implode(',', $categoryIds).")
 			ORDER BY post_date DESC $limit");
 
     } else {
 
-        $posts = $wpdb->get_results("SELECT ID, post_content, UNIX_TIMESTAMP(post_date) AS post_date, post_title
+        $posts = $wpdb->get_results("SELECT $wpdb->posts.ID, $wpdb->posts.post_content, UNIX_TIMESTAMP($wpdb->posts.post_date) AS post_date, $wpdb->posts.post_title
             FROM $wpdb->posts
-            WHERE (".$postCond.") AND post_type = 'post'
+            WHERE (".$postCond.") AND $wpdb->posts.post_type = 'post'
             ORDER BY post_date DESC $limit");
 
     }
