@@ -5,7 +5,7 @@ Plugin URI: http://maxime.sh/ical-feeds
 Description: Generate a customizable iCal feed of your present and future blog posts.
 Author: Maxime VALETTE
 Author URI: http://maxime.sh
-Version: 1.2.3
+Version: 1.2.4
 */
 
 define('ICALFEEDS_TEXTDOMAIN', 'icalfeeds');
@@ -253,8 +253,8 @@ function icalfeeds_feed() {
 
     foreach ($posts as $post) {
 
-        $start_time = get_date_from_gmt( date( 'Ymd\THis', $post->post_date ), 'Ymd\THis' );
-        $end_time = get_date_from_gmt( date( 'Ymd\THis', $post->post_date + (60 * 60)), 'Ymd\THis' );
+        $start_time = date( 'Ymd\THis', get_post_time( 'U', false, $post->ID ) );
+        $end_time = date( 'Ymd\THis', get_post_time( 'U', false, $post->ID ) + ($options['icalfeeds_minutes'] * 60));
         $summary = $post->post_title;
         $permalink = get_permalink($post->ID);
         $timezone = get_option('timezone_string');
